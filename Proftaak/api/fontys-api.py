@@ -174,5 +174,5 @@ CREATE INDEX sensors_devices ON sensors (deviceid);
 COMMIT;"""
 #)
 #print(locoation_database.text)
-babsbabsbabsssss
+babsbabsbabsssssskie
 #print("git commit/clone test pc")

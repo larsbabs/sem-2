@@ -4,5 +4,3 @@
 
 
 import sqlite3_to_mysql
-sqlite3mysql --help
-skiebabsk
