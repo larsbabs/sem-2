@@ -37,7 +37,9 @@ mydb = mysql.connector.connect(
 )
 #cursor instellen:
 mycursor = mydb.cursor()
-print(locoation_database.text)
+#print(locoation_database.text)
+
+
 #Het openen van het net opgeslagen .json bestand:
 #with open(file_name_pre + "_" + date_format + ".json") as f:
 #  data_file = json.load(f)
