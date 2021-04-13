@@ -11,6 +11,4 @@ def home():
 def babs():
     return books.read()
 
-pull test ubuntu
-
 app.run(host="0.0.0.0")
