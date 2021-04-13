@@ -38,7 +38,7 @@ resultaat:
 
 ![ping machine](https://user-images.githubusercontent.com/73792386/113689972-306e6200-96cb-11eb-8165-bcce9da6b475.PNG)
 
-### Met een popup
+## Met een popup
 
 Ik heb het ook gemaakt met een popup window. Dit doe ik met de Ctypes library.
 
