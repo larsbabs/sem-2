@@ -62,4 +62,6 @@ def pingPopup():
             Mbox('ping tester', 'De host is niet bereikbaar.', 0)
 ```
 popup window:
+
+
 ![ping machine](https://raw.githubusercontent.com/larsbabs/sem-2/main/Oefen-Challenges/Server%20ping/google%20ping.PNG)
