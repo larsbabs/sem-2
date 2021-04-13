@@ -24,8 +24,9 @@ print(babs.rtt_avg_ms)
 """
 
 # Het maken van een popup box
-def Mbox(title, text, style):
+def popup(title, text, style):
     return ctypes.windll.user32.MessageBoxW(0, text, title, style)
+
 def hostname_resolves(hostname):
     try:
         socket.gethostbyname(hostname)
@@ -38,17 +39,18 @@ def pingPopup():
     ip_input = entry1.get()
 
     if hostname_resolves(ip_input) == 0:
-        Mbox('ping tester', 'De host is niet bekent.', 0)
+        popup('ping tester', 'De host: "' + str(ip_input) + '" is niet bekent.\nControleer op spelfouten.', 0)
+
     else:
         geping = ping(ip_input, verbose=True, timeout=0.8, count=ping_count, df=True)
-
-        if geping.success(3):
+        if geping.success(1):
             if socket.gethostbyname(ip_input) == str(ip_input):
-                Mbox('ping tester', 'De host is bereikbaar!\nDe gemiddelde reactietijd is ' + str(geping.rtt_avg_ms) + " ms", 0)
+                popup('ping tester', 'De host: "' + str(ip_input) + '" is bereikbaar!\nDe gemiddelde reactietijd is ' + str(geping.rtt_avg_ms) + " ms", 0)
             else:
-                Mbox('ping tester', 'De host is bereikbaar!\nDe gemiddelde reactietijd is ' + str(geping.rtt_avg_ms) + " ms\nIP: " + socket.gethostbyname(ip_input), 0)
+                popup('ping tester', 'De host: "' + str(ip_input) + '" is bereikbaar!\nDe gemiddelde reactietijd is ' + str(geping.rtt_avg_ms) + " ms\nIP: " + socket.gethostbyname(ip_input), 0)
+
         else:
-            Mbox('ping tester', 'De host is niet bereikbaar.', 0)
+            popup('ping tester', 'De host: "' + str(ip_input) +'" is niet bereikbaar.', 0)
 
 
 root = Tk()
