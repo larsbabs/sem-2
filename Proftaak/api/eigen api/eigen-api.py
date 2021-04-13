@@ -10,5 +10,8 @@ def home():
 @app.route('/api/v1/books/test/', methods=['GET'])
 def babs():
     return books.read()
+@app.route('/babs/', methods=['GET'])
+def babs():
+    return "<h1>NIGGA</h1>"
 
 app.run(host="0.0.0.0")
