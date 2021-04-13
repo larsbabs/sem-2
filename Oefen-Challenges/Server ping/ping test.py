@@ -35,13 +35,13 @@ def hostname_resolves(hostname):
 
 # Functie die input leest en dan pingt
 def pingPopup():
-
     ip_input = entry1.get()
-    #addr1 = socket.gethostbyname(str(ip_input))
+
     if hostname_resolves(ip_input) == 0:
         Mbox('ping tester', 'De host is niet bekent.', 0)
     else:
         geping = ping(ip_input, verbose=True, timeout=0.8, count=ping_count, df=True)
+
         if geping.success(3):
             if socket.gethostbyname(ip_input) == str(ip_input):
                 Mbox('ping tester', 'De host is bereikbaar!\nDe gemiddelde reactietijd is ' + str(geping.rtt_avg_ms) + " ms", 0)
@@ -49,7 +49,6 @@ def pingPopup():
                 Mbox('ping tester', 'De host is bereikbaar!\nDe gemiddelde reactietijd is ' + str(geping.rtt_avg_ms) + " ms\nIP: " + socket.gethostbyname(ip_input), 0)
         else:
             Mbox('ping tester', 'De host is niet bereikbaar.', 0)
-        #print(addr1)
 
 
 root = Tk()
