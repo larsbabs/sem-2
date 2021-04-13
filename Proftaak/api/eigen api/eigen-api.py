@@ -12,6 +12,6 @@ def babs():
     return books.read()
 @app.route('/babs/', methods=['GET'])
 def test():
-    return "<h1>NIGGA</h1>"
+    return "<h1>babs</h1>"
 
 app.run(host="0.0.0.0")
