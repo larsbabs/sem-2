@@ -1,18 +1,33 @@
 import string
 import random
+import configparser
+
+# lezen van config file:
+config = configparser.ConfigParser()
+config.read(r"C:\Users\larsi\Documents\github\Password generator\config.ini")
+
+#controleren van de config file:
+def config_control():
+    if (config['password']['max_length'].strip().isdigit() == False) or (config['password']['min_length'].strip().isdigit() == False):
+        print("max en min moeten int's zijn")
+        exit()
+   
+    if int(config['password']['max_length']) < int(config['password']['min_length']):
+        print("max moet groter zijn dan min")
+        exit()
+
+#Uitvoeren van de passwordgenerator
 def generator():
-    max_length = 100
-    min_length = 5
     print("Dit is de Wachtwoord generator, hiermee kan je een random wachtwoord aanmaken.")
     while True:
-        print("Vul hier de lengte van uw wachtwoord in ("+ str(min_length) + " tot" , str(max_length) + "):")
+        print("Vul hier de lengte van uw wachtwoord in ("+ str(config['password']['min_length']) + " tot" , str(config['password']['max_length']) + "):")
         pass_lenght_str = input()
         if pass_lenght_str.strip().isdigit():
             pass_length = int(pass_lenght_str)
-            if pass_length > max_length:
-                print("Het moeten tussen", str(min_length), " en", str(max_length), "tekens zijn!")
-            elif pass_length < min_length:
-                print("Het moeten tussen", str(min_length), " en", str(max_length), "tekens zijn!")
+            if pass_length > int(config['password']['max_length']):
+                print("Het moeten tussen", str(config['password']['min_length']), " en", str(config['password']['max_length']), "tekens zijn!")
+            elif pass_length < int(config['password']['min_length']):
+                print("Het moeten tussen", str(config['password']['min_length']), " en", str(config['password']['max_length']), "tekens zijn!")
             else: break
         else:
             print("Het MOET een nummer zijn!")
@@ -71,4 +86,7 @@ def generator():
         else: break
     if new == "y":
         generator()
+
+# Aanroepen van de funties, altijd eerst de config_control en daarna de generator!!
+config_control()
 generator()
