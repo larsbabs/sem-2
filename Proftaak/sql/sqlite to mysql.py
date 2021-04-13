@@ -39,7 +39,7 @@ while True:
 #    sql_ding = ""
 #    sql_ding = "DROP TABLE " + sql[counter]
 #    print(sql_ding)
-    mycursor.execute("DROP TABLE " + sql[counter])
+    mycursor.execute("DROP TABLE IF EXISTS " + sql[counter])
     counter += 1
     if counter  == list_len:
         break
