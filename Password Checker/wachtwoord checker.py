@@ -14,7 +14,7 @@ lengte = len(s) - spaces
 #print("Er zitten: " + str(spaces) + " spaties in uw wachtwoord.")
 #print("Er zitten: " + str(others) + " tekens in uw wachtwoord.")
 #print("Er zitten: " + str(lengte) + " babs in uw wachtwoord.")
-
+"babs"
 
 
 def lengte_calc(lengte):
