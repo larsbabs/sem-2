@@ -14,6 +14,6 @@ def babs():
 def test():
     return "<h1>NIGGA</h1>"
 @app.route('/api/v1/antwoord1/', methods=['GET'])
-def test():
+def antwoord_test():
     return 'Jullie hebben het goed: <a href="https://groep3.eersel.duckdns.org/qrcode3.png">link</a>'
 app.run(host="0.0.0.0")
