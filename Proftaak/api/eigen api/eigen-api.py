@@ -12,7 +12,7 @@ def babs():
     return books.read()
 @app.route('/babs/', methods=['GET'])
 def test():
-    return "<h1>NIGGA</h1>"
+    return "1"
 @app.route('/api/v1/antwoord1/', methods=['GET'])
 def antwoord_test():
     return 'Jullie hebben het goed: <a href="https://groep3.eersel.duckdns.org/qrcode3.png">link</a>'
