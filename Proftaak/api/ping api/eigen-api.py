@@ -1,5 +1,6 @@
 import flask
 from pythonping import *
+import json
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 #books = open("./books.json")
@@ -14,10 +15,37 @@ def online_tester(ip):
         result = "Host " + str(ip) + " is offline"
     return result
 
+def json_editor():
+    json_result = '{hosts:}'
+    json_result_dict = json.loads(json_result)
 
 
+test_list_ip = ["1.1.1.1", "8.8.8.8", "192.168.1.1", "2.2.2.2"]
+test_list_name = ["babs", "google", "router", "test"]
 
+def formatter_ping(name, ip):
+    host_ping = ping(str(ip), verbose=False, timeout=0.2, count=4, df=False)
+    formatted = '{"' + str(name) + '": {"ip": "' + str(ip) + '","online": ' + str(host_ping.success(1)).lower() + ', "response_time": ' + str(host_ping.rtt_avg_ms) + '} }'
+    return formatted
+#print(formatter("babs", "1.1.1.1"))
 
+def list_formatter(ip_list, name_list):
+    count = 0
+    formatted_list = ""
+    while True:
+        formatted_list = formatted_list + formatter_ping(name_list[count], ip_list[count]) + ", "
+        count += 1
+        if count == len(ip_list):
+            break
+    formatted_list = formatted_list[:-2]
+    return formatted_list
+
+def formatter_json(text):
+    before = '{"hosts": ['
+    after = '], "message": "got pings", "sucess": true}'
+    formatted_json = before + text + after
+    return formatted_json
+print(formatter_json(list_formatter(test_list_ip, test_list_name)))
 
 @app.route('/', methods=['GET'])
 def home():
@@ -41,6 +69,9 @@ def pinger():
         if count == len(ip_list):
             break
     return skie
+@app.route('/kanker/', methods=['GET'])
+def ping_test():
+    return formatter_json(list_formatter(test_list_ip, test_list_name))
 app.run(host="0.0.0.0")
 
 #    scanner1_ping = ping(scanner1_ip, verbose=True, timeout=0.8, count=4, df=True)
