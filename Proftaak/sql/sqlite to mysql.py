@@ -24,7 +24,7 @@ def printit():
   threading.Timer(5.0, printit).start()
   print("Hello, World!")
 
-#printit()
+printit()
 counter = 0
 mycursor.execute("SHOW TABLES")
 tables = mycursor.fetchall() 
