@@ -1,6 +1,13 @@
 import flask
 from pythonping import *
 import json
+import configparser
+
+# lezen van config file:
+config = configparser.ConfigParser()
+config.read(r"C:\Users\larsi\Documents\github\Proftaak\api\ping api\ip-config.ini")
+
+print(config['ping-ip'])
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
@@ -30,7 +37,7 @@ def formatter_json(text):
     return formatted_json
 
 
-test = "<h1>" + json.dumps(json.loads(formatter_json(list_formatter(list_ip, list_name))), sort_keys=False, indent=4) + "</h1>"
+#test = "<h1>" + json.dumps(json.loads(formatter_json(list_formatter(list_ip, list_name))), sort_keys=False, indent=4) + "</h1>"
 
 @app.route('/ping/', methods=['GET'])
 def ping_test():
