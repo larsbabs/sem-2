@@ -5,7 +5,7 @@ import configparser
 
 # lezen van config file:
 config = configparser.ConfigParser()
-config.read(r"C:\Users\larsi\Documents\github\Proftaak\api\ping api\ip-config.ini")
+config.read("ip-config.ini")
 
 # Maak een list van de namen in de .ini file
 def nameList():
