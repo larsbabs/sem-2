@@ -1,0 +1,1 @@
+{"hosts": [{"name": "find-3-server", "ip": "10.10.1.10", "online": true, "response_time": 0.4}, {"name": "skie", "ip": "10.10.1.10", "online": true, "response_time": 0.4}]}

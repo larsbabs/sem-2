@@ -7,7 +7,7 @@ import configparser
 # het lezen van de config file, dit doe ik in een functie zodat ie vanzelf wordt bijgewerkt zonder de API opnieuw op de starten
 def config_read():
     config = configparser.ConfigParser()
-    config.read('./config.ini')
+    config.read(r'C:\Users\larsi\Documents\github\Proftaak\api\ping api\ip-config.ini')
     return config
 
 # Maak een list van de IP's
@@ -59,10 +59,39 @@ def formatter_json(text):
     formatted_json = before + text + after
     return formatted_json
 
+
+# Nieuwe manier van het maken van JSON bestanden:
+def json_maker(name_list, ip_list):
+    data = {}
+    data['hosts'] = []
+    count = 0
+    while True:
+        host_ping = ping(str(ip_list[count]), verbose=False, timeout=0.2, count=4, df=False)
+        if host_ping.success(1):
+            data['hosts'].append({
+                'name': str(name_list[count]),
+                'ip': str(ip_list[count]),
+                'online': str(host_ping.success(1)),
+                'response_time': str(host_ping.rtt_avg_ms)
+            })
+        else:
+            data['hosts'].append({
+                'name': str(name_list[count]),
+                'ip': str(ip_list[count]),
+                'online': str(host_ping.success(1)),
+                'response_time': '-'
+            })
+        count += 1
+        if count == len(ip_list):
+            break
+    return data
+
+#print(json_maker(nameList(), ipList()))
+
 # De http aanvraag voor de ping API
 @app.route('/ping/', methods=['GET'])
 def ping_test():
-    return formatter_json(list_formatter(ipList(), nameList()))
+    return json_maker(nameList(), ipList())
 
 # Dit is een test om het JSON format beter te laten zien in html format, nog niet gelukt
 @app.route('/ping-html/', methods=['GET'])
