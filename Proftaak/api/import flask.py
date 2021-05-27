@@ -34,13 +34,36 @@ def nameList():
 app = flask.Flask(__name__)
 app.config["DEBUG"] = True
 
+# Het maken van de apparte JSON stukjes per IP
+def formatter_ping(name, ip):
+    host_ping = ping(str(ip), verbose=False, timeout=0.2, count=4, df=False)
+    formatted = '{"' + str(name) + '": {"ip": "' + str(ip) + '","online": ' + str(host_ping.success(1)).lower() + ', "response_time": ' + str(host_ping.rtt_avg_ms) + '} }'
+    return formatted
+
+# het achterelkaar zetten van de json stukjes per IP
+def list_formatter(ip_list, name_list):
+    count = 0
+    formatted_list = ""
+    while True:
+        formatted_list = formatted_list + formatter_ping(name_list[count], ip_list[count]) + ", "
+        count += 1
+        if count == len(ip_list):
+            break
+    formatted_list = formatted_list[:-2]
+    return formatted_list
+
+# het afmaken van de JSON text
+def formatter_json(text):
+    before = '{"hosts": ['
+    after = '], "message": "got pings", "sucess": true}'
+    formatted_json = before + text + after
+    return formatted_json
+
+
 # Nieuwe manier van het maken van JSON bestanden:
 def json_maker(name_list, ip_list):
     data = {}
     data['hosts'] = []
-    data['online-hosts'] = {}
-    data['offline-hosts'] = {}
-#    data['online-hosts'].append({'test': 'skie'})
     count = 0
     while True:
         host_ping = ping(str(ip_list[count]), verbose=False, timeout=0.2, count=4, df=False)
@@ -58,10 +81,6 @@ def json_maker(name_list, ip_list):
                 'online': str(host_ping.success(1)),
                 'response_time': '-'
             })
-        if host_ping.success(1):
-            data['online-hosts'][name_list[count]] = {'ip': 'babs'}
-        else:
-            data['offline-hosts'][name_list[count]] = {'ip': 'skie'}
         count += 1
         if count == len(ip_list):
             break
@@ -80,4 +99,4 @@ def ping_test_html():
     if len(list_ip) == len(list_name):
         return test
     else: return "list length error"
-app.run(host="0.0.0.0", port="8080")
+app.run(host="0.0.0.0")
