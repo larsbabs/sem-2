@@ -3,9 +3,17 @@ import requests
 import flask
 import mysql.connector
 import threading
+import configparser
+import dotenv
 
+# het lezen van de config file, dit doe ik in een functie zodat ie vanzelf wordt bijgewerkt zonder de API opnieuw op de starten
+def config_read():
+    config = configparser.ConfigParser()
+    config.read(r'C:\Users\babs\Documents\sem-2\Proftaak\monitoring-api\config.ini')
+    return config
 def whole_program():
     threading.Timer(5.0, whole_program).start()
+    config = config_read()
     scanner_1_get = requests.get('http://10.10.3.10:8080/sys-info/')
     scanner_2_get = requests.get('http://10.10.3.11:8080/sys-info/')
     scanner_3_get = requests.get('http://10.10.3.12:8080/sys-info/')
@@ -18,11 +26,11 @@ def whole_program():
     print(scanner1_json["device-info"][0]["cpu"])
 
     mydb = mysql.connector.connect(
-    host="10.10.2.12",
-    user="monitoring",
-    password="Lekkerhoor12@",
-    database="monitoring",
-    port="3306"
+    host=config['mysql']['host'],
+    user=config['mysql']['username'],
+    password=config['mysql']['password'],
+    database=config['mysql']['database'],
+    port=config['mysql']['port']
     )
 
     mycursor = mydb.cursor()
