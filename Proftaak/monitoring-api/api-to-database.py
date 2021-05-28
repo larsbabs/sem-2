@@ -1,6 +1,6 @@
 import requests
 #import json
-import flask
+#import flask
 import mysql.connector
 import threading
 import configparser
@@ -23,7 +23,7 @@ def whole_program():
     scanner3_json = scanner_3_get.json()
     scanner4_json = scanner_4_get.json()
     #print(scanner_1_get.text, scanner_2_get.text, scanner_3_get.text, scanner_4_get.text)
-    print(scanner1_json["device-info"][0]["cpu"])
+#    print(scanner1_json["device-info"][0]["cpu"])
 
     mydb = mysql.connector.connect(
     host=config['mysql']['host'],
