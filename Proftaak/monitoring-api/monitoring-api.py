@@ -1,45 +1,29 @@
 from platform import platform
-import flask
 import psutil
 import socket
+import requests
+import threading
+from datetime import datetime
 
-app = flask.Flask(__name__)
-app.config["DEBUG"] = True
+def whole_program():
+    threading.Timer(300.0, whole_program).start()
 
-partitions = psutil.disk_partitions()
-svmem = psutil.virtual_memory()
-interfaces = psutil.net_if_addrs()
-ip = interfaces["wlan0"][0][1]
+    now = datetime.now()
+    current_time = now.strftime("%H:%M:%S")
 
-for partition in partitions:
-    try:
-        partition_usage = psutil.disk_usage(partition.mountpoint)
-    except PermissionError:
-        # this can be catched due to the disk that
-        # isn't ready
+    partitions = psutil.disk_partitions()
+    svmem = psutil.virtual_memory()
+    interfaces = psutil.net_if_addrs()
+    ip = interfaces["wlan0"][0][1]
+
+    for partition in partitions:
+        try:
+            partition_usage = psutil.disk_usage(partition.mountpoint)
+        except PermissionError:
+            continue
+
+    for i, percentage in enumerate(psutil.cpu_percent(percpu=True, interval=1)):
         continue
-
-def json_maker(name, ip, disk, cpu, memory):
-    data = {}
-    data['device-info'] = []
-    data['device-info'].append({
-        'hostname': str(name),
-        'ip': str(ip),
-        'cpu': str(cpu),
-        'disk': str(disk),
-        'memory': str(memory)
-    })
-    return data
-
-for i, percentage in enumerate(psutil.cpu_percent(percpu=True, interval=1)):
-    continue
-
-#print(psutil.cpu_percent())
-#print(f"{partition_usage.percent}")
-#print(f"{svmem.percent}")
-#json_maker(device_name, "10.10.3.1", (f"{partition_usage.percent}"), psutil.cpu_percent(), psutil.virtual_memory().percent)
-
-@app.route('/sys-info/', methods=['GET'])
-def ping_test_html():
-    return json_maker(socket.gethostname(), ip, partition_usage.percent, psutil.cpu_percent(), svmem.percent)
-app.run(host="0.0.0.0", port="8080")
+    requests.get('http://10.10.2.14:8080/monitor?cpu=' + str(psutil.cpu_percent()) + '&disk=' + str(partition_usage.percent) + '&memory=' + str(svmem.percent) + '&ip=' + ip + '&hostname=' + str(socket.gethostname()) + '')
+    print(current_time + ", Request made to 10.10.2.14")
+whole_program()
