@@ -24,6 +24,9 @@ def whole_program():
 
     for i, percentage in enumerate(psutil.cpu_percent(percpu=True, interval=1)):
         continue
-    requests.get('http://10.10.2.14:8080/monitor?cpu=' + str(psutil.cpu_percent()) + '&disk=' + str(partition_usage.percent) + '&memory=' + str(svmem.percent) + '&ip=' + ip + '&hostname=' + str(socket.gethostname()) + '')
-    print(current_time + ", Request made to 10.10.2.14")
+    try:
+        requests.get('http://10.10.2.14:8080/monitor?cpu=' + str(psutil.cpu_percent()) + '&disk=' + str(partition_usage.percent) + '&memory=' + str(svmem.percent) + '&ip=' + ip + '&hostname=' + str(socket.gethostname()) + '')
+        print(str(now) + ", Request made to 10.10.2.14")
+    except requests.ConnectionError:
+        print(str(now) + ", No Request made to 10.10.2.14, no connection")
 whole_program()
