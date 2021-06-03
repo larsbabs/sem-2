@@ -18,7 +18,7 @@ def infoFormatter():
         total = data["locations"][count]["total"]
         name = data["locations"][count]["location"]
         percent = (data["locations"][count]["total"] / totalCalculator() * 100)
-        name_and_total_list = [str(name), str(total), str(round(percent, 2))]
+        name_and_total_list = [str(name), total, round(percent, 2)]
         total_list.append(name_and_total_list)
         count += 1
         if count == len(data["locations"]):
