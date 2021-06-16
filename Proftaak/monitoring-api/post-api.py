@@ -3,21 +3,16 @@ from flask import request
 from psutil import cpu_percent
 import mysql.connector
 import configparser
+from datetime import datetime
 def config_read():
     config = configparser.ConfigParser()
     config.read(r'C:\Users\larsi\Documents\github\Proftaak\monitoring-api\config.ini')
     return config
-
+now = datetime.now()
+current_time = now.strftime("%H:%M:%S")
 config = config_read()
 
 app = Flask(__name__)
-
-@app.route('/test', methods=['POST'])
-def monitor_post():
-    # request.args is to get urls arguments 
-    cpu = request.args.get('cpu')
-    print(str(cpu))
-    return '200'
 
 @app.route('/monitor')
 def query_example():
@@ -51,5 +46,6 @@ def query_example():
 
     
     return '200'
+
 
 app.run(host="0.0.0.0", port="8080")
