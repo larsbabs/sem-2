@@ -60,6 +60,27 @@ def getMeetings():
                 break
         return id_list
 
+def getMeetingsPerServer():
+    sha1Link = 'getMeetings' + getSharedSecret()
+    apiLink = 'getMeetings'
+    fullLink = apiLink + "?checksum=" + sha1LinkMaker(sha1Link)
+    count = 0
+    coolList = []
+    print('Getting meetings......\n')
+    while True:
+        httpLink = serverList[count] + fullLink
+        data = requests.get(httpLink)
+        root = ET.fromstring(data.text)
+        if data.text.find("noMeetings") != -1:
+            coolList.append([serverList[count], 0])
+        else:
+            lenght = len(root[1])
+            coolList.append([serverList[count], lenght])
+        count += 1
+        if count == len(serverList):
+            break
+    return coolList
+
 
 def getMeetingPassword():
     sha1Link = 'getMeetings' + getSharedSecret()
@@ -141,7 +162,7 @@ def createJoinLink(serverUrl, apiLink):
     joinUrl = serverUrl + apiLink
     return joinUrl
 
-def randomMeetingGenerator(adminPassRandom, attendeePassRandom):
+def randomMeetingGenerator(adminPassRandom, attendeePassRandom, amount):
     letters = string.ascii_lowercase
     numbers = string.digits
     server = serverSelecter()
@@ -155,7 +176,7 @@ def randomMeetingGenerator(adminPassRandom, attendeePassRandom):
         requests.get(callLink).text
         count += 1
         print("Created Meeting: ", count, ' Meeting Id: ', meetingNameRandom)
-        if count == 10:
+        if count == amount:
             break
 
 
@@ -200,7 +221,17 @@ def ask_user(question):
 
 
 def choice():
-    userInput = input("Choose a function: \n1: Create a Join and Session link.\n2: Get list of all recordings.\n3: Get a list of all ongoing calls.\n4: Generate 10 random meetings.\n5: End all ongoing meetings.\n")
+    userInput = input(
+"""
+Choose a function: 
+1: Create a Join and Session link.
+2: Get list of all recordings.
+3: Get a list of all ongoing calls.
+4: Generate random meetings.
+5: End all ongoing meetings.
+6: Get all meetings per Server.
+"""
+                    )
     if userInput == "1":
         print(chr(27) + "[2J")
         link = createJoinLink(serverSelecter(), createMeetingStringGenerator())
@@ -212,7 +243,7 @@ def choice():
             print("Create Link: " + link)
     elif userInput == '2':
         print(chr(27) + "[2J")
-        print(*createJoinLink(serverSelecter(), getRecordings()), sep = "\n")
+        print(createJoinLink(serverSelecter(), getRecordings()))
     elif userInput == '3':
         print(chr(27) + "[2J")
         serverSelecter()
@@ -224,9 +255,27 @@ def choice():
     elif userInput == '4':
         adminPassword = input("Enter the Admin-Password for the meetings:\n")
         userPassword = input("Enter the Attendee-Password for the meetings:\n")
-        randomMeetingGenerator(adminPassword, userPassword)
+        while True:
+            amount = input("Enter the amount of meetings you want to generate:\n")
+            try:
+                val = int(amount)
+                break
+            except ValueError:
+                print("That's not an valid input")
+        if int(amount) <= 51:
+            randomMeetingGenerator(adminPassword, userPassword, int(amount))
+        else:
+            print('The amount must be lower or equal to 50')
     elif userInput == '5':
         print(endAllMeetings())
+    elif userInput == '6':
+        count = 0
+        meetingsList = getMeetingsPerServer()
+        while True:
+            print('Server: ' + meetingsList[count][0] + '\nMeetings: ' + str(meetingsList[count][1]) + '\n')
+            count += 1
+            if count == len(meetingsList):
+                break
     else:
         print(chr(27) + "[2J")
         print("Enter a valid input:")
