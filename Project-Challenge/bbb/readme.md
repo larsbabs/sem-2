@@ -15,3 +15,4 @@ def sha1LinkMaker(sha1link):
     checksumString = m.hexdigest()
     return checksumString
 ```
+Om deze funtie re gebruiken heb je een ``sha1link`` nodig
