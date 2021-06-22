@@ -39,13 +39,7 @@ def query_example():
         mycursor.execute(sql, val)
 
         mydb.commit()
-    
+
     mysql_inserter()
-
-
-
-    
     return '200'
-
-
 app.run(host="0.0.0.0", port="8080")
