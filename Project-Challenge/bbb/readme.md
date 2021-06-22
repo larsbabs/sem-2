@@ -26,4 +26,17 @@ def joinMeetingStringGenerator():
     joinApiJoinLink = joinApiJoinSring + '&checksum=' + sha1LinkMaker(joinApiSha1String)
     return joinApiJoinLink
 ```
- Hier kan je zien dat de sha1LinkMaker functie word aangeroepen met ``joinApiSha1String`` als variabele. Deze string word dus gebruikt om een Checksom te krijgen. Deze Checksum moet je dan aan het einde van de API Call: ``&checksum=`` 
+Hier kan je zien dat de sha1LinkMaker functie word aangeroepen met ``joinApiSha1String`` als variabele. Deze string word dus gebruikt om een Checksum te krijgen. Deze Checksum moet je dan aan het einde van de API Call zetten: ``&checksum=`` 
+
+Met de combinatie van de 20 functies kan je bijna alles doen wat je met de BBB meetings te doen valt.
+
+Deze lijst krijg je op het begin te zien:
+```
+Choose a function:
+1: Create a Join and Session link.
+2: Get list of all recordings.
+3: Get a list of all ongoing calls.
+4: Generate random meetings.
+5: End all ongoing meetings.
+6: Get all meetings per Server.
+```
