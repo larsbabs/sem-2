@@ -2,13 +2,20 @@ import requests
 import xml.etree.ElementTree as ET
 import random
 import string
+import configparser
 
 serverList = ['https://bbb1.proftaak.duckdns.org/bigbluebutton/api/', 'https://bbb2.proftaak.duckdns.org/bigbluebutton/api/', 'https://bbb3.proftaak.duckdns.org/bigbluebutton/api/', 'https://meet.proftaak.duckdns.org/bigbluebutton/api/']
 
 def getSharedSecret():
-    secret = '1efdb9136482acd5b02962e2dcf040887269f0953bb5db7351ef6abe794ff293'
+    config = configparser.ConfigParser()
+    config.read(r'C:\Users\larsi\Documents\github\Project-Challenge\bbb\config.ini')
+    secret = config['secret']['key']
     return secret
-
+# Het lezen van de config file voor de MySQL database
+def config_read():
+    config = configparser.ConfigParser()
+    config.read('./config.ini')
+    return config
 def inputReturn(item):
     print("Enter here your: ", item)
     userInput = input()
