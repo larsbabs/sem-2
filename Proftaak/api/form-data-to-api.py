@@ -93,7 +93,7 @@ def json_maker():
 # Start de API op: /heatmap/
 @app.route('/heatmap/', methods=['GET'])
 def heatmap():
-    createDataPoint()
     connector()
+    createDataPoint()
     return json_maker()
 app.run(host="0.0.0.0", port="888")
