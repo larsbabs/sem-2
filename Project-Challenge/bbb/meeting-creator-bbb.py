@@ -8,7 +8,7 @@ serverList = ['https://bbb1.proftaak.duckdns.org/bigbluebutton/api/', 'https://b
 
 def getSharedSecret():
     config = configparser.ConfigParser()
-    config.read(r'C:\Users\larsi\Documents\github\Project-Challenge\bbb\config.ini')
+    config.read(r'C:\Users\larsi\OneDrive\bbb key\config.ini')
     secret = config['secret']['key']
     return secret
 # Het lezen van de config file voor de MySQL database
