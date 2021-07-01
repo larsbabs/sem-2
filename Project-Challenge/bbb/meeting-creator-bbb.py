@@ -4,22 +4,28 @@ import random
 import string
 import configparser
 
+
 serverList = ['https://bbb1.proftaak.duckdns.org/bigbluebutton/api/', 'https://bbb2.proftaak.duckdns.org/bigbluebutton/api/', 'https://bbb3.proftaak.duckdns.org/bigbluebutton/api/', 'https://meet.proftaak.duckdns.org/bigbluebutton/api/']
+
 
 def getSharedSecret():
     config = configparser.ConfigParser()
     config.read(r'C:\Users\larsi\OneDrive\bbb key\config.ini')
     secret = config['secret']['key']
     return secret
-# Het lezen van de config file voor de MySQL database
+
+
 def config_read():
     config = configparser.ConfigParser()
     config.read('./config.ini')
     return config
+
+
 def inputReturn(item):
     print("Enter here your: ", item)
     userInput = input()
     return userInput
+
 
 def createMeetingStringGenerator():
     global meetingName
@@ -41,12 +47,14 @@ def createMeetingStringGenerator():
     apiLink = apiCallString + "&checksum=" + sha1LinkMaker(sha1GenString)
     return apiLink
 
+
 def joinMeetingStringGenerator():
     userName = inputReturn('User Name')
     joinApiSha1String = 'joinmeetingID=' + meetingId + '&password=' + atendeePass + '&fullName=' + userName + getSharedSecret()
     joinApiJoinSring = 'join?meetingID=' + meetingId + '&password=' + atendeePass + '&fullName=' + userName
     joinApiJoinLink = joinApiJoinSring + '&checksum=' + sha1LinkMaker(joinApiSha1String)
     return joinApiJoinLink
+
 
 def getMeetings():
     sha1Link = 'getMeetings' + getSharedSecret()
@@ -66,6 +74,7 @@ def getMeetings():
             if count == len(root[1]):
                 break
         return id_list
+
 
 def getMeetingsPerServer():
     sha1Link = 'getMeetings' + getSharedSecret()
@@ -108,11 +117,13 @@ def getMeetingPassword():
                 break
         return password_list
 
+
 def getRecordings():
     sha1Link = 'getRecordings' + getSharedSecret()
     apiLink = 'getRecordings'
     fullLink = apiLink + '?checksum=' + sha1LinkMaker(sha1Link)
     return fullLink
+
 
 def getVideoLinkRecording():
     data = requests.get(createJoinLink(serverSelecter(), getRecordings()))
@@ -126,13 +137,14 @@ def getVideoLinkRecording():
             break
     return linkList
 
+
 ## Sha1 Generator ##
 def sha1LinkMaker(sha1link):
     from hashlib import sha1
     m = sha1(sha1link.encode('utf-8'))
-    global checksumString
     checksumString = m.hexdigest()
     return checksumString
+
 
 def serverSelecter():
     print(serverListPrinter())
@@ -150,6 +162,7 @@ def serverSelecter():
             count = 1
     return serverStringGlobal
 
+
 def serverListPrinter():
     count = 0
     initial = "Enter the Server-Number: "
@@ -160,6 +173,7 @@ def serverListPrinter():
             break
     return initial
 
+
 def createMeetingLink():
     apiLink = str(serverSelecter()) + str(sha1LinkMaker(sha1GenString, apiCallString))
     return apiLink
@@ -168,6 +182,7 @@ def createMeetingLink():
 def createJoinLink(serverUrl, apiLink):
     joinUrl = serverUrl + apiLink
     return joinUrl
+
 
 def randomMeetingGenerator(adminPassRandom, attendeePassRandom, amount):
     letters = string.ascii_lowercase
@@ -211,6 +226,7 @@ def createStrings():
     createMeetingStringGenerator()
     joinMeetingStringGenerator()
 
+
 def ask_user(question):
     check = str(input(question)).lower().strip()
     try:
@@ -220,11 +236,11 @@ def ask_user(question):
             return False
         else:
             print('Invalid Input')
-            return ask_user()
+            return ask_user(question)
     except Exception as error:
         print("Please enter valid inputs")
         print(error)
-        return ask_user()
+        return ask_user(question)
 
 
 def choice():
@@ -237,7 +253,8 @@ Choose a function:
 4: Generate random meetings.
 5: End all ongoing meetings.
 6: Get all meetings per Server.
-"""
+
+Input: """
                     )
     if userInput == "1":
         print(chr(27) + "[2J")
@@ -287,6 +304,4 @@ Choose a function:
         print(chr(27) + "[2J")
         print("Enter a valid input:")
         choice()
-
-
 choice()

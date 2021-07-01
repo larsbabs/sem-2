@@ -1,0 +1,6 @@
+version: "3"
+services:
+  checksum-api:
+    image: checksum-api:latest
+    ports:
+      - '82:5000'
