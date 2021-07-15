@@ -1,0 +1,6 @@
+version: "3"
+services:
+  checksum-api:
+    image: larsbabs/minecraft-server-checker:latest
+    ports:
+      - '82:5000'

@@ -1,6 +1,5 @@
 import flask
 from pythonping import *
-import json
 import configparser
 
 
@@ -40,7 +39,6 @@ def json_maker(name_list, ip_list):
     data['hosts'] = []
     data['online-hosts'] = {}
     data['offline-hosts'] = {}
-#    data['online-hosts'].append({'test': 'skie'})
     count = 0
     while True:
         host_ping = ping(str(ip_list[count]), verbose=False, timeout=0.2, count=4, df=False)
@@ -58,10 +56,6 @@ def json_maker(name_list, ip_list):
                 'online': str(host_ping.success(1)),
                 'response_time': '-'
             })
-        if host_ping.success(1):
-            data['online-hosts'][name_list[count]] = {'ip': 'babs'}
-        else:
-            data['offline-hosts'][name_list[count]] = {'ip': 'skie'}
         count += 1
         if count == len(ip_list):
             break
@@ -73,11 +67,3 @@ def json_maker(name_list, ip_list):
 @app.route('/ping/', methods=['GET'])
 def ping_test():
     return json_maker(nameList(), ipList())
-
-# Dit is een test om het JSON format beter te laten zien in html format, nog niet gelukt
-@app.route('/ping-html/', methods=['GET'])
-def ping_test_html():
-    if len(list_ip) == len(list_name):
-        return test
-    else: return "list length error"
-app.run(host="0.0.0.0", port="8080")

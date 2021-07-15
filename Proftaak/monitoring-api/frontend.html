@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Opdracht 1</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+    <div class="jumbotron">
+      <h1>Raspberry monitoring</h1>
+      <p>Monitoring for scanner 1, 2, 3 and 4</p>
+    </div>
+    <div class="row">
+      <div class="col-sm-4">
+        <h3>Scanner 1</h3>
+        <p id="scanner1"></p>
+      </div>
+      <div class="col-sm-4">
+        <h3>Scanner 2</h3>
+        <p id="scanner2"></p>
+      </div>
+      <div class="col-sm-4">
+        <h3>Scanner 3</h3>
+        <p id="scanner3"></p>
+      </div>
+      <div class="col-sm-4">
+        <h3>Scanner 4</h3>
+        <p id="scanner4"></p>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    document.getElementById("scanner1").innerHTML='Jullie hebben het goed: <a href="https://groep1.eersel.duckdns.org/qrcode1.png">link</a>';
+    document.getElementById("scanner2").innerHTML='Jullie hebben het goed: <a href="https://groep1.eersel.duckdns.org/qrcode1.png">link</a>';
+    document.getElementById("scanner3").innerHTML='Jullie hebben het goed: <a href="https://groep1.eersel.duckdns.org/qrcode1.png">link</a>';
+    document.getElementById("scanner4").innerHTML='Jullie hebben het goed: <a href="https://groep1.eersel.duckdns.org/qrcode1.png">link</a>';
+</script>
+</body>
+</html>
