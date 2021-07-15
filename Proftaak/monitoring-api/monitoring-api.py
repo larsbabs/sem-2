@@ -9,15 +9,10 @@ app.config["DEBUG"] = True
 partitions = psutil.disk_partitions()
 svmem = psutil.virtual_memory()
 interfaces = psutil.net_if_addrs()
-ip = interfaces["wlan0"][0][1]
+ip = interfaces["lan0"][0][1]
 
-for partition in partitions:
-    try:
-        partition_usage = psutil.disk_usage(partition.mountpoint)
-    except PermissionError:
-        # this can be catched due to the disk that
-        # isn't ready
-        continue
+
+partition_usage = psutil.disk_usage('/')
 
 def json_maker(name, ip, disk, cpu, memory):
     data = {}

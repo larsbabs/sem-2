@@ -24,7 +24,7 @@ mycursor = mydb.cursor()
 def nameList(ini_name):
     config = config_read()
     name_list = []
-    for key in config[ini_name][]:
+    for key in config[ini_name]:
         name_list.append(key)
     return name_list
 
